@@ -1,6 +1,7 @@
 org 100h
 
 input:
+    ; Mostrando mensagem no terminal
     mov dx, offset msg
     mov ah, 09h
     int 21h     
@@ -20,7 +21,8 @@ input:
     sub al, '0'
     mov bh, al    
 
-    ; idade = (dezena * 10) + unidade
+    ; Calcula a idade da seguinte maneira => (dezena * 10) + unidade, sendo dezena o primeiro digito e unidade o segundo
+    ; Formando o numero digitado
     mov al, bl
     mov ah, 0
     mov cx, 10
@@ -29,11 +31,12 @@ input:
 
     mov [idade], al
 
+    ; Verifica se o numero digitado foi negativo
     cmp al, 0
     jl invalido
 
 validacao:
-    mov al, [idade]
+    mov al, [idade] ; Idade no registrador al
     mov bl, primeiraMarca
     cmp al, bl 
     
@@ -86,7 +89,7 @@ primeiraMarca   db 12
 segundaMarca    db 18
 terceiraMarca   db 60
 
-msg             db "Digite sua idade (2 digitos): $"
+msg             db "Digite sua idade (2 digitos, Ex.: 9 anos ->  Digite 09 ): $"
 se_crianca      db "Com essa idade eh: crianca $"
 se_adolescente  db "Com essa idade eh: adolescente $"
 se_adulto       db "Com essa idade eh: adulto $"
