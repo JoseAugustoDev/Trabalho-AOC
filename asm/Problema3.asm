@@ -41,22 +41,24 @@ input:
     ; Pula Linha:
     putc 0Dh
     putc 0Ah     
-    
-    ; jmp main   
+                  
     
 main:
-    ; Empilha o valor de a para conseguir usar na função mdc
-    mov ax, [valor_a]
-    push ax
+    mov ax, [valor_a]      
     
-    ; Empilha o valor de b para conseguir usar na função mdc
-    mov ax, [valor_b]
-    push ax
+    mov bx, [valor_b]
     
     ; Chama a função para calcular o mdc
-    call mdc 
+    call mdc                    
+      
+    ; Pula linha
+    putc 0Dh
+    putc 0Ah   
+  
+    ; Chama a função para imprimir o numero ( Explicação na declaração do procedimento )
+    call print_num  
     
-    ; Depois de calcular, finaliza.
+    ; Depois de calcular e imprimir, finaliza.
     jmp fim
 
     
@@ -87,14 +89,10 @@ valor_b DW ?
 ler_a DB "Digite o valor de a: $"  
 ler_b DB "Digite o valor de b: $"                  
 
-erro_input_msg DB "Numeros invalidos. Devem ser positivos. $" 
-resultado DB "MDC: $"  
+erro_input_msg DB "Numeros invalidos. Devem ser positivos. $"
 
 ; Procedimento criado para calcular o mdc
-MDC PROC  
-    Desempilha os valores que foram empilhados antes da chamada da função, a fim de recupera-los para poder usar aqui dentro.
-    pop bx
-    pop ax
+MDC PROC 
 
 ; Esse loop funciona para realizar o calculo do MDC de acordo com o algoritmo de Euclides    
 loop_mdc:
@@ -116,21 +114,6 @@ loop_mdc:
     jmp loop_mdc  
     
 fim_mdc: 
- 
-    ; Pula linha
-    putc 0Dh
-    putc 0Ah   
-    
-    ; Mostra a mensagem na tela
-    mov dx, offset resultado
-    mov ah, 09h
-    int 21h  
-    
-    ; Recupera o valor do MDC, guardado em ax pelo procedimento
-    pop ax
-
-    ; Chama a função para imprimir o numero ( Explicação na declaração do procedimento )
-    call print_num  
 
     ret
     
