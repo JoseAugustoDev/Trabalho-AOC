@@ -34,7 +34,7 @@ input:
     mov [valor_b], cx   
     
     ; Verifica se o b é menor do que a (nao é permitido nesse algoritmo de mdc)
-    cmp cx, [valor_a]
+    cmp cx, 0
     
     jl erro_input
     
